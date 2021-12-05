@@ -15,7 +15,7 @@
 <body>
        <div class="container">
            <h1 class="mt-5">Advent of Code 2021</h1>
-           <p class="lead">Day 1</p>
+           <p class="lead">Day 1-1</p>
            <input type='file' id="input"accept='text/plain' onchange='openFile(event)'><br>
            <div>
                 <p id="output">
@@ -30,7 +30,17 @@
     </script>
     <script>
         function solver(input) {
-            
+            let measureHigherThanPrevious = 0;
+            for (let i=0; i<input.length; i++) {
+                if (parseInt(input[i]) > parseInt(input[i-1])) {
+                    console.log(input[i]," higher than ",input[i-1])
+                    measureHigherThanPrevious++
+                }
+                else {
+                    console.log(input[i]," NOT higher than ",input[i-1])
+                }
+            }
+            return measureHigherThanPrevious
         }
 
         var openFile = function(event) {
@@ -39,9 +49,9 @@
         var reader = new FileReader();
         reader.onload = function(){
           var text = reader.result;
+          let formatted_text = text.trim().split('\n')
           var node = document.getElementById('output');
-          node.innerText = text;
-          console.log(reader.result.substring(0, 200));
+          node.innerText = solver(formatted_text);
         };
         reader.readAsText(input.files[0]);
       };
