@@ -32,7 +32,7 @@
         function solver(input) {
             let measureHigherThanPrevious = 0;
             for (let i=0; i<input.length; i++) {
-                if (parseInt(input[i]) > parseInt(input[i-1])) {
+                if (input[i] > input[i-1]) {
                     console.log(input[i]," higher than ",input[i-1])
                     measureHigherThanPrevious++
                 }
@@ -50,6 +50,7 @@
         reader.onload = function(){
           var text = reader.result;
           let formatted_text = text.trim().split('\n')
+          formatted_text = formatted_text.map((x) => parseInt(x))
           var node = document.getElementById('output');
           node.innerText = solver(formatted_text);
         };

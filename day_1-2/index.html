@@ -15,7 +15,7 @@
 <body>
        <div class="container">
            <h1 class="mt-5">Advent of Code 2021</h1>
-           <p class="lead">Day 0-0</p>
+           <p class="lead">Day 1-2</p>
            <input type='file' id="input"accept='text/plain' onchange='openFile(event)'><br>
            <div>
                 <p id="output">
@@ -30,7 +30,25 @@
     </script>
     <script>
         function solver(input) {
-            // Code to resolve input
+            let sumHigherCount = 0;
+
+            for (let i=0; i<input.length; i++) {
+                let currentSum = input[i-2] + input[i-1] + input[i]
+                let previousSum = input[i-3] + input[i-2] + input[i-1]
+
+                if (!previousSum) {
+                    console.log('Data not available yet')
+                }
+
+                else if (currentSum > previousSum) {
+                    console.log(currentSum," is higher than ",previousSum)
+                    sumHigherCount++
+                }
+                else {
+                    console.log(currentSum," is NOT higher than ",previousSum)
+                }
+            }
+            return sumHigherCount
         }
 
         var openFile = function(event) {
@@ -39,8 +57,9 @@
             reader.onload = function(){
                 var text = reader.result;
                 let input = text.trim().split('\n')
+                let inputInt = input.map((x) => parseInt(x))
                 var node = document.getElementById('output');
-                node.innerText = solver(input);
+                node.innerText = solver(inputInt);
             };
             reader.readAsText(input.files[0]);
       };
