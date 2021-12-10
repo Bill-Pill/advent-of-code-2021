@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Advent of Code 2021</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+       <div class="container">
+           <h1 class="mt-5">Advent of Code 2021</h1>
+           <p class="lead">Day 3-1</p>
+           <input type='file' id="input"accept='text/plain' onchange='openFile(event)'><br>
+           <div>
+                <p id="output">
+                </p>
+           </div>
+       </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script>
+        function solver(input) {
+            let gamma = ''
+            let epsilon = ''
+            for (let i = 0; i < 12; i++) {
+                let iBit = ''
+                input.forEach(binary => {
+                    iBit += binary[i]
+                
+                })
+                epsilon += maxChar(iBit) === '1' ? '0' : '1'
+                gamma += maxChar(iBit)
+            }
+
+            // input.forEach(binary => {
+            //     epsilon += maxChar(binary) === '1' ? '0' : '1'
+            //     gamma += maxChar(binary)
+            //     console.log(gamma)
+            //     console.log(epsilon)
+            // })
+            const gammaDecimal = parseInt(gamma,2)
+            const epsilonDecimal = parseInt(epsilon,2)
+            return gammaDecimal * epsilonDecimal
+        }
+
+        function maxChar(str) {
+            const charMap = {};
+            let max = 0;
+            let maxChar = '';
+
+            // create character map
+            for (let char of str) {
+                if (charMap[char]) {
+                // increment the character's value if the character existed in the map
+                charMap[char]++;
+                } else {
+                // Otherwise, the value of the character will be increamented by 1
+                charMap[char] = 1;
+                }
+            }
+
+            // find the most commonly used character
+            for (let char in charMap) {
+                if (charMap[char] > max) {
+                max = charMap[char];
+                maxChar = char;
+                }
+            }
+
+            return maxChar;
+            }
+
+        var openFile = function(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function(){
+                var text = reader.result;
+                let input = text.trim().split('\n')
+                var node = document.getElementById('output');
+                node.innerText = solver(input)
+            };
+            reader.readAsText(input.files[0]);
+      };
+    </script>
+</body>
+
+</html> 
