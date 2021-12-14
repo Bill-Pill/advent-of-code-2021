@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Advent of Code 2021</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+       <div class="container">
+           <h1 class="mt-5">Advent of Code 2021</h1>
+           <p class="lead">Day 3-2</p>
+           <input type='file' id="input"accept='text/plain' onchange='openFile(event)'><br>
+           <div>
+                <p id="output">
+                </p>
+           </div>
+       </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script>
+        function solver(input) {
+            let oxyVals = []
+            let scrubberVals = []
+            let currentIteration = 0;
+            let bits =''
+            
+            
+            // For each input
+            input.forEach(binary => {
+                // take the first number of each input
+                bits += binary[0]
+            })
+            // find most common value
+            let commonVal = maxChar(bits)
+                if (commonVal === 2) {
+                    console.log('common 2')
+                }
+            
+            input.forEach(binary => {
+                // if first number meets oxygen criteria, push to oxyVals. else push to scrubberVals
+                if(parseInt(binary[0]) === commonVal) {
+                    oxyVals.push(binary)
+                }
+                else {
+                    scrubberVals.push(binary)
+                }
+            })
+            
+            // Now we have initial lists in oxyVals and scrubberVals
+
+            // Find oxygen rating
+            for(currentIteration = 1; currentIteration < 12; currentIteration++) {
+                //find most common value at currentIteration position
+                bits = ''
+                oxyVals.forEach(value => {
+                    bits += value[currentIteration]
+                })
+                commonVal = maxChar(bits)
+                if(commonVal === 2) {
+                    commonVal = 1
+                }
+                console.log('most common val at position ', currentIteration,'is ',commonVal)
+                if (oxyVals.length > 1) {
+                    oxyVals = oxyVals.filter(value => 
+                    commonVal === parseInt(value[currentIteration])
+                    )
+                console.log(oxyVals)
+                    
+                }
+            }
+            console.log('oxy rating ', parseInt(oxyVals[0], 2))
+            
+            // Find co2 rating 
+            for(currentIteration = 1; currentIteration < 12; currentIteration++) {
+                //find most common value at currentIteration position
+                bits = ''
+                scrubberVals.forEach(value => {
+                    bits += value[currentIteration]
+                })
+                commonVal = maxChar(bits)
+                if(commonVal === 2) {
+                    commonVal = 1
+                }
+                
+                if (scrubberVals.length > 1) {
+                    scrubberVals = scrubberVals.filter(value => 
+                    commonVal !== parseInt(value[currentIteration])
+                    )
+                }
+                
+            }
+            console.log('scrubber rating ', parseInt(scrubberVals[0], 2))
+            console.log('power output = ', parseInt(scrubberVals[0], 2) * parseInt(oxyVals[0], 2))
+
+            
+            return "done"
+        }
+
+        function maxChar(str) {
+            const charMap = {};
+            let max = 0;
+            let maxChar = '';
+
+            // create character map
+            for (let char of str) {
+                if (charMap[char]) {
+                // increment the character's value if the character existed in the map
+                charMap[char]++;
+                } else {
+                // Otherwise, the value of the character will be increamented by 1
+                charMap[char] = 1;
+                }
+            }
+
+            // find the most commonly used character
+            for (let char in charMap) {
+                if (charMap[char] > max) {
+                max = charMap[char];
+                maxChar = char;
+                }
+            }
+            
+            // Return '2' if there's a tie
+            if (charMap['0'] == charMap['1']) {
+                return 2
+            }
+            else {
+                return parseInt(maxChar);
+                }
+            }
+
+        var openFile = function(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function(){
+                var text = reader.result;
+                let input = text.trim().split('\n')
+                var node = document.getElementById('output');
+                node.innerText = solver(input)
+                solver(input)
+            };
+            reader.readAsText(input.files[0]);
+      };
+    </script>
+</body>
+
+</html> 
