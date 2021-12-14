@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Advent of Code 2021</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+       <div class="container">
+           <h1 class="mt-5">Advent of Code 2021</h1>
+           <p class="lead">Day 4-1</p>
+           <input type='file' id="input"accept='text/plain' onchange='openFile(event)'><br>
+           <div>
+                <p id="output">
+                </p>
+           </div>
+       </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script>
+        function solver(input) {
+            function Board(row1, row2, row3, row4, row5) {
+                this.row1 = row1;
+                this.row2 = row2;
+                this.row3 = row3;
+                this.row4 = row4;
+                this.row5 = row5;
+            }
+            let numbersDrawn = input[0]
+            let boards = []
+
+            for (let i = 2; i < input.length; i = i+6) {
+                const board = new Board(input[i], input[i+1], input[i+2], input[i+3], input[i+4])
+                boards.push(board)
+                console.log(boards)
+            }
+
+
+            return boards
+        }
+
+        var openFile = function(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function(){
+                var text = reader.result;
+                let input = text.trim().split('\n')
+                var node = document.getElementById('output');
+                node.innerText = solver(input);
+            };
+            reader.readAsText(input.files[0]);
+      };
+    </script>
+</body>
+
+</html> 
